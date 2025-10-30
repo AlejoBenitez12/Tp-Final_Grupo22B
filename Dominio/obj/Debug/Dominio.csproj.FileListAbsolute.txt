@@ -1,0 +1,6 @@
+C:\Users\alejo\Desktop\C# Progra 3\TiendaGaming-TP-Grupo22B\Dominio\bin\Debug\Dominio.dll
+C:\Users\alejo\Desktop\C# Progra 3\TiendaGaming-TP-Grupo22B\Dominio\bin\Debug\Dominio.pdb
+C:\Users\alejo\Desktop\C# Progra 3\TiendaGaming-TP-Grupo22B\Dominio\obj\Debug\Dominio.csproj.AssemblyReference.cache
+C:\Users\alejo\Desktop\C# Progra 3\TiendaGaming-TP-Grupo22B\Dominio\obj\Debug\Dominio.csproj.CoreCompileInputs.cache
+C:\Users\alejo\Desktop\C# Progra 3\TiendaGaming-TP-Grupo22B\Dominio\obj\Debug\Dominio.dll
+C:\Users\alejo\Desktop\C# Progra 3\TiendaGaming-TP-Grupo22B\Dominio\obj\Debug\Dominio.pdb

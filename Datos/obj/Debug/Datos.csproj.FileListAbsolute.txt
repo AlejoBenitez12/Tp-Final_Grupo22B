@@ -1,0 +1,9 @@
+C:\Users\alejo\Desktop\C# Progra 3\TiendaGaming-TP-Grupo22B\Datos\bin\Debug\Datos.dll
+C:\Users\alejo\Desktop\C# Progra 3\TiendaGaming-TP-Grupo22B\Datos\bin\Debug\Datos.pdb
+C:\Users\alejo\Desktop\C# Progra 3\TiendaGaming-TP-Grupo22B\Datos\bin\Debug\Dominio.dll
+C:\Users\alejo\Desktop\C# Progra 3\TiendaGaming-TP-Grupo22B\Datos\bin\Debug\Dominio.pdb
+C:\Users\alejo\Desktop\C# Progra 3\TiendaGaming-TP-Grupo22B\Datos\obj\Debug\Datos.csproj.AssemblyReference.cache
+C:\Users\alejo\Desktop\C# Progra 3\TiendaGaming-TP-Grupo22B\Datos\obj\Debug\Datos.csproj.CoreCompileInputs.cache
+C:\Users\alejo\Desktop\C# Progra 3\TiendaGaming-TP-Grupo22B\Datos\obj\Debug\Datos.csproj.Up2Date
+C:\Users\alejo\Desktop\C# Progra 3\TiendaGaming-TP-Grupo22B\Datos\obj\Debug\Datos.dll
+C:\Users\alejo\Desktop\C# Progra 3\TiendaGaming-TP-Grupo22B\Datos\obj\Debug\Datos.pdb

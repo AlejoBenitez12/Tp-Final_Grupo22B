@@ -1,0 +1,11 @@
+# Archivos de caché y logs de Visual Studio
+.vs/
+*.suo
+*.user
+
+# Carpetas de compilación
+[Bb]in/
+[Oo]bj/
+
+# Paquetes de NuGet
+packages/

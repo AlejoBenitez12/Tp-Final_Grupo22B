@@ -1,0 +1,158 @@
+﻿using Dominio;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Datos
+{
+    public class AccesoDatos
+    {
+        private readonly string connectionString = "server=.\\SQLEXPRESS; database=TIENDA_GAMING_DB; integrated security=true;";
+
+        public List<Producto> ListarProductos()
+        {
+            List<Producto> lista = new List<Producto>();
+            var productosDiccionario = new Dictionary<int, Producto>();
+
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                string consulta = @"
+                    SELECT 
+                        P.Id, P.Codigo, P.Nombre, P.Descripcion, P.Precio, P.Stock,
+                        M.Id AS IdMarca, M.Descripcion AS DescripcionMarca,
+                        C.Id AS IdCategoria, C.Descripcion AS DescripcionCategoria,
+                        I.ImagenUrl
+                    FROM PRODUCTOS P
+                    LEFT JOIN MARCAS M ON P.IdMarca = M.Id
+                    LEFT JOIN CATEGORIAS C ON P.IdCategoria = C.Id
+                    LEFT JOIN IMAGENES I ON P.Id = I.IdProducto
+                    ORDER BY P.Id";
+
+                using (SqlCommand comando = new SqlCommand(consulta, conexion))
+                {
+                    try
+                    {
+                        conexion.Open();
+                        using (SqlDataReader lector = comando.ExecuteReader())
+                        {
+                            while (lector.Read())
+                            {
+                                int idProducto = (int)lector["Id"];
+                                Producto productoActual;
+
+                                if (!productosDiccionario.ContainsKey(idProducto))
+                                {
+                                    productoActual = new Producto();
+                                    productoActual.Id = idProducto;
+                                    productoActual.Codigo = (string)lector["Codigo"];
+                                    productoActual.Nombre = (string)lector["Nombre"];
+                                    productoActual.Descripcion = (string)lector["Descripcion"];
+                                    if (lector["Precio"] != DBNull.Value)
+                                        productoActual.Precio = (decimal)lector["Precio"];
+                                    productoActual.Stock = (int)lector["Stock"];
+
+                                    if (lector["IdMarca"] != DBNull.Value)
+                                        productoActual.Marca = new Marca { Id = (int)lector["IdMarca"], Descripcion = (string)lector["DescripcionMarca"] };
+                                    else
+                                        productoActual.Marca = new Marca { Descripcion = "Sin Marca" };
+
+                                    if (lector["IdCategoria"] != DBNull.Value)
+                                        productoActual.Categoria = new Categoria { Id = (int)lector["IdCategoria"], Descripcion = (string)lector["DescripcionCategoria"] };
+                                    else
+                                        productoActual.Categoria = new Categoria { Descripcion = "Sin Categoría" };
+
+                                    productosDiccionario.Add(idProducto, productoActual);
+                                }
+                                else
+                                {
+                                    productoActual = productosDiccionario[idProducto];
+                                }
+
+                                if (lector["ImagenUrl"] != DBNull.Value)
+                                    productoActual.Imagenes.Add((string)lector["ImagenUrl"]);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Error al leer productos.", ex);
+                    }
+                }
+            }
+            lista = new List<Producto>(productosDiccionario.Values);
+            return lista;
+        }
+
+        public Producto BuscarPorId(int id)
+        {
+            Producto encontrado = null; // Empezamos asumiendo que no lo encontramos
+
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                // Consulta similar a Listar, pero con WHERE y uniendo imágenes
+                string consulta = @"
+            SELECT 
+                P.Id, P.Codigo, P.Nombre, P.Descripcion, P.Precio, P.Stock,
+                M.Id AS IdMarca, M.Descripcion AS DescripcionMarca,
+                C.Id AS IdCategoria, C.Descripcion AS DescripcionCategoria,
+                I.ImagenUrl
+            FROM PRODUCTOS P
+            LEFT JOIN MARCAS M ON P.IdMarca = M.Id
+            LEFT JOIN CATEGORIAS C ON P.IdCategoria = C.Id
+            LEFT JOIN IMAGENES I ON P.Id = I.IdProducto
+            WHERE P.Id = @id"; // La clave: filtrar por ID
+
+                using (SqlCommand comando = new SqlCommand(consulta, conexion))
+                {
+                    comando.Parameters.AddWithValue("@id", id); // Parámetro seguro
+                    try
+                    {
+                        conexion.Open();
+                        using (SqlDataReader lector = comando.ExecuteReader())
+                        {
+                            while (lector.Read())
+                            {
+                                // Si 'encontrado' es null, es la primera fila, creamos el objeto
+                                if (encontrado == null)
+                                {
+                                    encontrado = new Producto();
+                                    encontrado.Id = (int)lector["Id"];
+                                    encontrado.Codigo = (string)lector["Codigo"];
+                                    encontrado.Nombre = (string)lector["Nombre"];
+                                    // ... (aquí va el resto del mapeo: Descripcion, Precio, Stock) ...
+                                    encontrado.Descripcion = (string)lector["Descripcion"];
+                                    if (lector["Precio"] != DBNull.Value)
+                                        encontrado.Precio = (decimal)lector["Precio"];
+                                    encontrado.Stock = (int)lector["Stock"];
+
+                                    // Mapeo de Marca
+                                    if (lector["IdMarca"] != DBNull.Value)
+                                        encontrado.Marca = new Marca { Id = (int)lector["IdMarca"], Descripcion = (string)lector["DescripcionMarca"] };
+                                    else
+                                        encontrado.Marca = new Marca { Descripcion = "Sin Marca" };
+
+                                    // Mapeo de Categoria
+                                    if (lector["IdCategoria"] != DBNull.Value)
+                                        encontrado.Categoria = new Categoria { Id = (int)lector["IdCategoria"], Descripcion = (string)lector["DescripcionCategoria"] };
+                                    else
+                                        encontrado.Categoria = new Categoria { Descripcion = "Sin Categoría" };
+                                }
+
+                                // Agregamos la imagen (si no es nula)
+                                if (lector["ImagenUrl"] != DBNull.Value)
+                                {
+                                    encontrado.Imagenes.Add((string)lector["ImagenUrl"]);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex) { throw new Exception("Error al buscar producto por ID.", ex); }
+                }
+            }
+            return encontrado; // Devuelve el producto (o null si no se encontró)
+        }
+    }
+}

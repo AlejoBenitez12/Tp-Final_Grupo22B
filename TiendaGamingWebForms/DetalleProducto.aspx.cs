@@ -30,5 +30,54 @@ namespace TiendaGamingWebForms
                 }
             }
         }
+
+        protected void btnAgregarCarrito_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string id = Request.QueryString["id"];
+                if (string.IsNullOrEmpty(id))
+                {
+                    return;
+                }
+
+                List<ItemCarrito> listaCarrito;
+                if (Session["Carrito"] != null)
+                {
+                    listaCarrito = (List<ItemCarrito>)Session["Carrito"];
+                }
+                else
+                {
+                    listaCarrito = new List<ItemCarrito>();
+                }
+
+                int cantidad = Convert.ToInt32(ddlCantidad.SelectedValue);
+
+                ItemCarrito itemExistente = listaCarrito.Find(item => item.Producto.Id == Convert.ToInt32(id));
+
+                if (itemExistente != null)
+                {
+                    itemExistente.Cantidad += cantidad;
+                }
+                else
+                {
+                    if (ProductoSeleccionado != null)
+                    {
+                        ItemCarrito nuevoItem = new ItemCarrito();
+                        nuevoItem.Producto = ProductoSeleccionado;
+                        nuevoItem.Cantidad = cantidad;
+                        listaCarrito.Add(nuevoItem);
+                    }
+                }
+
+                Session["Carrito"] = listaCarrito;
+
+                Response.Redirect("Carrito.aspx");
+            }
+            catch (Exception ex)
+            {
+                Response.Redirect("Default.aspx");
+            }
+        }
     }
 }

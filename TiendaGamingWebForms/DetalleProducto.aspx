@@ -86,7 +86,7 @@
                 <%-- Botones nomas --%>
                 <div class="flex flex-col sm:flex-row gap-4 mt-2">
                     <asp:Button ID="btnAgregarCarrito" runat="server" Text="Añadir al Carrito" 
-                                CssClass="flex-grow flex w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors" />
+                                CssClass="flex-grow flex w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors" OnClick="btnAgregarCarrito_Click"/>
                     <asp:Button ID="btnListaDeseos" runat="server" Text="Lista de Deseos" 
                                 CssClass="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-white/10 text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-white/20 transition-colors" />
                 </div>

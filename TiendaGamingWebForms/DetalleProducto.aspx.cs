@@ -79,5 +79,12 @@ namespace TiendaGamingWebForms
                 Response.Redirect("Default.aspx");
             }
         }
+
+        protected void lnkVaciarCarrito_Click(object sender, EventArgs e)
+        {
+            Session["Carrito"] = null;
+
+            Response.Redirect("Carrito.aspx", false);
+        }
     }
 }

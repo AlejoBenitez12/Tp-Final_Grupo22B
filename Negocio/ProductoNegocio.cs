@@ -48,5 +48,18 @@ namespace Negocio
                 throw new Exception("Error al listar por categoría desde Negocio.", ex);
             }
         }
+
+        public List<Producto> ListarPorBusqueda(string termino)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                return datos.ListarPorBusqueda(termino);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al buscar desde Negocio.", ex);
+            }
+        }
     }
 }

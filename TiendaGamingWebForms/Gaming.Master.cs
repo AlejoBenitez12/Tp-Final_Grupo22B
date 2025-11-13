@@ -13,5 +13,15 @@ namespace TiendaGamingWebForms
         {
 
         }
+
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+            string terminoBuscado = txtBuscar.Text;
+
+            if (!string.IsNullOrEmpty(terminoBuscado))
+            {
+                Response.Redirect("~/ResultadosBusqueda.aspx?q=" + terminoBuscado);
+            }
+        }
     }
 }

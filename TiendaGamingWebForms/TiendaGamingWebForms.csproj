@@ -101,6 +101,7 @@
   <ItemGroup>
     <Content Include="About.aspx" />
     <Content Include="Carrito.aspx" />
+    <Content Include="Componentes.aspx" />
     <Content Include="Consolas.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
@@ -125,8 +126,10 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
+    <Content Include="Perifericos.aspx" />
     <Content Include="Productos.aspx" />
     <Content Include="Registro.aspx" />
+    <Content Include="ResultadosBusqueda.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -206,6 +209,13 @@
     <Compile Include="Carrito.aspx.designer.cs">
       <DependentUpon>Carrito.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Componentes.aspx.cs">
+      <DependentUpon>Componentes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Componentes.aspx.designer.cs">
+      <DependentUpon>Componentes.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Consolas.aspx.cs">
       <DependentUpon>Consolas.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -251,6 +261,13 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Perifericos.aspx.cs">
+      <DependentUpon>Perifericos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Perifericos.aspx.designer.cs">
+      <DependentUpon>Perifericos.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Productos.aspx.cs">
       <DependentUpon>Productos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -265,6 +282,13 @@
     </Compile>
     <Compile Include="Registro.aspx.designer.cs">
       <DependentUpon>Registro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ResultadosBusqueda.aspx.cs">
+      <DependentUpon>ResultadosBusqueda.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ResultadosBusqueda.aspx.designer.cs">
+      <DependentUpon>ResultadosBusqueda.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>

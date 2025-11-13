@@ -126,6 +126,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
+    <Content Include="PCs.aspx" />
     <Content Include="Perifericos.aspx" />
     <Content Include="Productos.aspx" />
     <Content Include="Registro.aspx" />
@@ -260,6 +261,13 @@
     </Compile>
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PCs.aspx.cs">
+      <DependentUpon>PCs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PCs.aspx.designer.cs">
+      <DependentUpon>PCs.aspx</DependentUpon>
     </Compile>
     <Compile Include="Perifericos.aspx.cs">
       <DependentUpon>Perifericos.aspx</DependentUpon>

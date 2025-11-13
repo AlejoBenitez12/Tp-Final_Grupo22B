@@ -4,10 +4,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
    <h2 class="text-3xl font-bold mb-6 dark:text-white">Nuestros Productos</h2>
 
-    <%-- Contenedor de la Cuadrícula con Tailwind --%>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-
-        <%-- Aca uso el Repeater que va a generar cada tarjeta --%>
         <asp:Repeater ID="rptProductos" runat="server">
     <ItemTemplate>
         

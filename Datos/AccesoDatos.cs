@@ -215,7 +215,6 @@ namespace Datos
                                     productoActual = productosDiccionario[idProducto];
                                 }
 
-                                // ¡Agrega la imagen al producto!
                                 if (lector["ImagenUrl"] != DBNull.Value)
                                 {
                                     productoActual.Imagenes.Add((string)lector["ImagenUrl"]);
@@ -264,7 +263,6 @@ namespace Datos
                         conexion.Open();
                         using (SqlDataReader lector = comando.ExecuteReader())
                         {
-                            // ***** ¡SOLO UN BLOQUE WHILE! *****
                             while (lector.Read())
                             {
                                 int idProducto = (int)lector["Id"];
@@ -303,7 +301,6 @@ namespace Datos
                                     productoActual.Imagenes.Add((string)lector["ImagenUrl"]);
                                 }
                             }
-                            // ***** FIN DEL ÚNICO BLOQUE WHILE *****
                         }
                     }
                     catch (Exception ex) { throw new Exception("Error al buscar.", ex); }

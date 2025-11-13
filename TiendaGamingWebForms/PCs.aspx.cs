@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace TiendaGamingWebForms
 {
-    public partial class Componentes : System.Web.UI.Page
+    public partial class PCs : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -17,7 +17,7 @@ namespace TiendaGamingWebForms
             {
                 ProductoNegocio negocio = new ProductoNegocio();
 
-                List<Producto> listaProductos = negocio.ListarPorCategoria(4);
+                List<Producto> listaProductos = negocio.ListarPorCategoria(7);
 
                 rptProductos.DataSource = listaProductos;
                 rptProductos.DataBind();

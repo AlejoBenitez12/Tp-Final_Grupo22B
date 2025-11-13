@@ -55,31 +55,29 @@
                     <div class="flex items-center gap-3 text-white">
 
                         <a href="~/Default.aspx" runat="server">
-                            <img src="~/Content/Images/Logo PG.png" alt="Prime Gaming Logo" height="30" />
+                            <img src="Logo PrimeGaming logo.png" alt="Prime Gaming Logo" height="30" />
                         </a>
                         
                     </div>
                     <nav class="hidden lg:flex items-center gap-8">
                     
-                        <a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#">PC</a>
+                        <a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="~/PCs.aspx" runat="server">PC</a>
                         <a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="~/Consolas.aspx" runat="server">Consolas</a>
                         <a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="~/Componentes.aspx" runat="server">Componentes</a>
                         <a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="~/Perifericos.aspx" runat="server">Periféricos</a>
-                        <a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Ofertas</a>
-                        <a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="~/Productos.aspx" runat="server">Productos (Lista)</a> <%-- Link a mi página --%>
+                        <a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="~/Productos.aspx" runat="server">Productos (Lista)</a> 
                     </nav>
                 </div>
                 <div class="flex flex-1 justify-end items-center gap-3">
-                    <%-- Barra de búsqueda (AHORA FUNCIONAL) --%>
-                <div class="hidden md:flex flex-row min-w-40 !h-10 max-w-64"> <%-- Cambiado a flex-row --%>
+
+                <div class="hidden md:flex flex-row min-w-40 !h-10 max-w-64"> 
                     <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
                         
-                        <%-- El TextBox de ASP.NET --%>
+
                         <asp:TextBox ID="txtBuscar" runat="server" 
                                      CssClass="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-l-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-none bg-white/5 focus:border-none h-full placeholder:text-white/60 px-4 text-sm font-normal leading-normal" 
                                      placeholder="Buscar productos..."></asp:TextBox>
-                        
-                        <%-- El Botón de Búsqueda VISIBLE --%>
+
                         <asp:LinkButton ID="btnBuscar" runat="server" OnClick="btnBuscar_Click" 
                                       CssClass="text-white/60 flex border-none bg-white/5 items-center justify-center px-3 rounded-r-lg border-l-0 hover:bg-primary hover:text-white">
                             <span class="material-symbols-outlined">search</span>

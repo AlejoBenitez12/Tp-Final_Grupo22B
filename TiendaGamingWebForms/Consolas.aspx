@@ -2,20 +2,16 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <h2 class="text-3xl font-bold mb-6 dark:text-white">Consolas</h2> <%-- ¡TÍTULO CAMBIADO! --%>
+    <h2 class="text-3xl font-bold mb-6 dark:text-white">Consolas</h2> 
 
-    <%-- Contenedor de la Cuadrícula con Tailwind --%>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
-        <%-- Aca uso el Repeater que va a generar cada tarjeta --%>
         <asp:Repeater ID="rptProductos" runat="server">
             <ItemTemplate>
         
-                <%-- ENVOLVEMOS TODO EN EL LINK --%>
                 <asp:HyperLink ID="lnkTarjetaProducto" runat="server" 
                                NavigateUrl='<%# "~/DetalleProducto.aspx?id=" + Eval("Id") %>'>
             
-                    <%-- Este es el código de la tarjeta --%>
                     <div class="bg-white/5 dark:bg-[#191933] rounded-lg overflow-hidden flex flex-col group transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/20 border border-transparent hover:border-primary/50">
                 
                         <div class="bg-cover bg-center aspect-square" 
@@ -36,11 +32,9 @@
                     </div>
             
                 </asp:HyperLink>
-                <%-- FIN DEL LINK --%>
 
             </ItemTemplate>
         </asp:Repeater>
-        <%-- Acá termina el repeater --%>
 
     </div>
 </asp:Content>

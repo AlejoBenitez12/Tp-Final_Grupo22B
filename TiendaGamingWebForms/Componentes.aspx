@@ -3,13 +3,13 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2 class="text-3xl font-bold mb-6 dark:text-white">Componentes</h2> <%-- TÍTULO CAMBIADO --%>
+    <h2 class="text-3xl font-bold mb-6 dark:text-white">Componentes</h2>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"> <%-- LA CUADRÍCULA --%>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
         <asp:Repeater ID="rptProductos" runat="server">
             <ItemTemplate>
-                <%-- (Aquí va tu <ItemTemplate> completo con el HyperLink y la tarjeta) --%>
+
                 <asp:HyperLink ID="lnkTarjetaProducto" runat="server" NavigateUrl='<%# "~/DetalleProducto.aspx?id=" + Eval("Id") %>'>
                     <div class="bg-white/5 dark:bg-[#191933] rounded-lg overflow-hidden flex flex-col group transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/20 border border-transparent hover:border-primary/50">
                         <div class="bg-cover bg-center aspect-square" style='background-image: url("<%# Eval("Imagenes[0]") %>");'></div>
@@ -29,7 +29,7 @@
             </ItemTemplate>
         </asp:Repeater>
 
-    </div> <%-- CIERRE DEL DIV GRID --%>
+    </div> 
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptsPlaceHolder" runat="server">

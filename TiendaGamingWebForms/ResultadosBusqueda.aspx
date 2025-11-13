@@ -6,14 +6,11 @@
     Resultados para: <asp:Label ID="lblTerminoBuscado" runat="server" CssClass="text-primary" />
     </h2>
 
-    <%-- Contenedor de la Cuadrícula con Tailwind --%>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
-        <%-- Aca uso el Repeater que va a generar cada tarjeta --%>
         <asp:Repeater ID="rptProductos" runat="server">
     <ItemTemplate>
         
-
         <asp:HyperLink ID="lnkTarjetaProducto" runat="server" 
                        NavigateUrl='<%# "~/DetalleProducto.aspx?id=" + Eval("Id") %>'>
             

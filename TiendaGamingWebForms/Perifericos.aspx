@@ -5,17 +5,12 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
-    <%-- 1. TÍTULO (Faltaba esto) --%>
     <h2 class="text-3xl font-bold mb-6 dark:text-white">Periféricos</h2>
 
-    <%-- 2. CONTENEDOR GRID (Faltaba esto) --%>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
-        <%-- 3. REPEATER (Faltaba esto) --%>
         <asp:Repeater ID="rptProductos" runat="server">
             <ItemTemplate>
-                
-                <%-- Este es el código que SÍ tenías (¡está perfecto!) --%>
                 <asp:HyperLink ID="lnkTarjetaProducto" runat="server" 
                                NavigateUrl='<%# "~/DetalleProducto.aspx?id=" + Eval("Id") %>'>
                     
@@ -41,9 +36,7 @@
                 
             </ItemTemplate>
         </asp:Repeater> 
-        <%-- Fin del Repeater --%>
-
-    </div> <%-- Fin del Grid --%>
+    </div> 
 
 </asp:Content>
 

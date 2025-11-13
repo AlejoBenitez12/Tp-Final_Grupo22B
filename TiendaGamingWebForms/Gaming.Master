@@ -62,7 +62,7 @@
                     <nav class="hidden lg:flex items-center gap-8">
                     
                         <a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#">PC</a>
-                        <a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Consolas</a>
+                        <a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="~/Consolas.aspx" runat="server">Consolas</a>
                         <a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Componentes</a>
                         <a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Periféricos</a>
                         <a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Ofertas</a>

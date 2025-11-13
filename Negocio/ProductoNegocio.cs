@@ -35,5 +35,18 @@ namespace Negocio
                 throw new Exception("Error al buscar por ID desde Negocio.", ex);
             }
         }
+
+        public List<Producto> ListarPorCategoria(int idCategoria)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                return datos.ListarPorCategoria(idCategoria); 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar por categoría desde Negocio.", ex);
+            }
+        }
     }
 }

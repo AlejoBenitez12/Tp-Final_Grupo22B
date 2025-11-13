@@ -88,11 +88,11 @@ namespace Datos
 
         public Producto BuscarPorId(int id)
         {
-            Producto encontrado = null; // Empezamos asumiendo que no lo encontramos
+            Producto encontrado = null; 
 
             using (SqlConnection conexion = new SqlConnection(connectionString))
             {
-                // Consulta similar a Listar, pero con WHERE y uniendo imágenes
+
                 string consulta = @"
             SELECT 
                 P.Id, P.Codigo, P.Nombre, P.Descripcion, P.Precio, P.Stock,
@@ -103,11 +103,11 @@ namespace Datos
             LEFT JOIN MARCAS M ON P.IdMarca = M.Id
             LEFT JOIN CATEGORIAS C ON P.IdCategoria = C.Id
             LEFT JOIN IMAGENES I ON P.Id = I.IdProducto
-            WHERE P.Id = @id"; // La clave: filtrar por ID
+            WHERE P.Id = @id"; 
 
                 using (SqlCommand comando = new SqlCommand(consulta, conexion))
                 {
-                    comando.Parameters.AddWithValue("@id", id); // Parámetro seguro
+                    comando.Parameters.AddWithValue("@id", id);
                     try
                     {
                         conexion.Open();
@@ -115,33 +115,32 @@ namespace Datos
                         {
                             while (lector.Read())
                             {
-                                // Si 'encontrado' es null, es la primera fila, creamos el objeto
+
                                 if (encontrado == null)
                                 {
                                     encontrado = new Producto();
                                     encontrado.Id = (int)lector["Id"];
                                     encontrado.Codigo = (string)lector["Codigo"];
                                     encontrado.Nombre = (string)lector["Nombre"];
-                                    // ... (aquí va el resto del mapeo: Descripcion, Precio, Stock) ...
+
                                     encontrado.Descripcion = (string)lector["Descripcion"];
                                     if (lector["Precio"] != DBNull.Value)
                                         encontrado.Precio = (decimal)lector["Precio"];
                                     encontrado.Stock = (int)lector["Stock"];
 
-                                    // Mapeo de Marca
+
                                     if (lector["IdMarca"] != DBNull.Value)
                                         encontrado.Marca = new Marca { Id = (int)lector["IdMarca"], Descripcion = (string)lector["DescripcionMarca"] };
                                     else
                                         encontrado.Marca = new Marca { Descripcion = "Sin Marca" };
 
-                                    // Mapeo de Categoria
                                     if (lector["IdCategoria"] != DBNull.Value)
                                         encontrado.Categoria = new Categoria { Id = (int)lector["IdCategoria"], Descripcion = (string)lector["DescripcionCategoria"] };
                                     else
                                         encontrado.Categoria = new Categoria { Descripcion = "Sin Categoría" };
                                 }
 
-                                // Agregamos la imagen (si no es nula)
+
                                 if (lector["ImagenUrl"] != DBNull.Value)
                                 {
                                     encontrado.Imagenes.Add((string)lector["ImagenUrl"]);
@@ -152,7 +151,9 @@ namespace Datos
                     catch (Exception ex) { throw new Exception("Error al buscar producto por ID.", ex); }
                 }
             }
-            return encontrado; // Devuelve el producto (o null si no se encontró)
+            return encontrado; 
         }
+
+
     }
 }

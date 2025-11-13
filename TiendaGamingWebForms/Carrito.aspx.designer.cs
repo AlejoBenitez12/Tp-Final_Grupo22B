@@ -48,7 +48,25 @@ namespace TiendaGamingWebForms
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litSubtotal;
+        protected global::System.Web.UI.WebControls.Label litSubtotal;
+
+        /// <summary>
+        /// Control litEnvio.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label litEnvio;
+
+        /// <summary>
+        /// Control litImpuestos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label litImpuestos;
 
         /// <summary>
         /// Control litTotal.
@@ -57,7 +75,7 @@ namespace TiendaGamingWebForms
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTotal;
+        protected global::System.Web.UI.WebControls.Label litTotal;
 
         /// <summary>
         /// Control txtCodigoDescuento.
@@ -75,7 +93,7 @@ namespace TiendaGamingWebForms
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAplicarDescuento;
+        protected global::System.Web.UI.WebControls.LinkButton btnAplicarDescuento;
 
         /// <summary>
         /// Control btnProcederPago.
@@ -84,6 +102,6 @@ namespace TiendaGamingWebForms
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnProcederPago;
+        protected global::System.Web.UI.WebControls.LinkButton btnProcederPago;
     }
 }

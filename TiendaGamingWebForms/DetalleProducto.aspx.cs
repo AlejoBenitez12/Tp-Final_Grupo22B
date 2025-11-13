@@ -41,18 +41,9 @@ namespace TiendaGamingWebForms
                     return;
                 }
 
-                List<ItemCarrito> listaCarrito;
-                if (Session["Carrito"] != null)
-                {
-                    listaCarrito = (List<ItemCarrito>)Session["Carrito"];
-                }
-                else
-                {
-                    listaCarrito = new List<ItemCarrito>();
-                }
+                List<ItemCarrito> listaCarrito = Session["Carrito"] as List<ItemCarrito> ?? new List<ItemCarrito>();
 
                 int cantidad = Convert.ToInt32(ddlCantidad.SelectedValue);
-
                 ItemCarrito itemExistente = listaCarrito.Find(item => item.Producto.Id == Convert.ToInt32(id));
 
                 if (itemExistente != null)
@@ -61,10 +52,13 @@ namespace TiendaGamingWebForms
                 }
                 else
                 {
-                    if (ProductoSeleccionado != null)
+                    ProductoNegocio negocio = new ProductoNegocio();
+                    Producto productoAAgregar = negocio.BuscarPorId(Convert.ToInt32(id));
+
+                    if (productoAAgregar != null)
                     {
                         ItemCarrito nuevoItem = new ItemCarrito();
-                        nuevoItem.Producto = ProductoSeleccionado;
+                        nuevoItem.Producto = productoAAgregar;
                         nuevoItem.Cantidad = cantidad;
                         listaCarrito.Add(nuevoItem);
                     }
@@ -72,19 +66,13 @@ namespace TiendaGamingWebForms
 
                 Session["Carrito"] = listaCarrito;
 
-                Response.Redirect("Carrito.aspx");
+                Response.Redirect("Carrito.aspx", false);
             }
             catch (Exception ex)
             {
-                Response.Redirect("Default.aspx");
+                Response.Redirect("Default.aspx", false);
             }
         }
 
-        protected void lnkVaciarCarrito_Click(object sender, EventArgs e)
-        {
-            Session["Carrito"] = null;
-
-            Response.Redirect("Carrito.aspx", false);
-        }
     }
 }

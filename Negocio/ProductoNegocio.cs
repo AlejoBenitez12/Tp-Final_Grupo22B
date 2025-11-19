@@ -61,5 +61,18 @@ namespace Negocio
                 throw new Exception("Error al buscar desde Negocio.", ex);
             }
         }
+
+        public List<Producto> ListarPorListaDeIds(List<int> listaIds)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                return datos.ListarPorListaDeIds(listaIds);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar por IDs desde Negocio.", ex);
+            }
+        }
     }
 }

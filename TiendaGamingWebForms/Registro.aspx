@@ -9,18 +9,22 @@
             <div class="space-y-4">
                 <div>
                     <asp:Label ID="lblEmailRegistro" runat="server" AssociatedControlID="txtEmailRegistro" CssClass="block text-sm font-medium text-gray-700 dark:text-[#9292c9] mb-1">Email</asp:Label>
-                    <asp:TextBox ID="txtEmailRegistro" runat="server" TextMode="Email" CssClass="form-input block w-full px-4 py-2 mt-1 text-base rounded-lg text-black dark:text-white bg-background-light dark:bg-background-dark border border-gray-300 dark:border-[#323267] focus:outline-none focus:ring-primary focus:border-primary" placeholder="tu_correo@ejemplo.com"></asp:TextBox>
+                    <asp:TextBox ID="txtEmailRegistro" runat="server" TextMode="Email" CssClass="form-input block w-full px-4 py-2 mt-1 text-base rounded-lg dark:text-white bg-background-light dark:bg-background-dark border border-gray-300 dark:border-[#323267] focus:outline-none focus:ring-primary focus:border-primary" placeholder="tu_correo@ejemplo.com"></asp:TextBox>
                 </div>
                 <div>
                     <asp:Label ID="lblPasswordRegistro" runat="server" AssociatedControlID="txtPasswordRegistro" CssClass="block text-sm font-medium text-gray-700 dark:text-[#9292c9] mb-1">Contraseña</asp:Label>
-                    <asp:TextBox ID="txtPasswordRegistro" runat="server" TextMode="Password" CssClass="form-input block w-full px-4 py-2 mt-1 text-base rounded-lg text-black dark:text-white bg-background-light dark:bg-background-dark border border-gray-300 dark:border-[#323267] focus:outline-none focus:ring-primary focus:border-primary" placeholder="••••••••"></asp:TextBox>
+                    <asp:TextBox ID="txtPasswordRegistro" runat="server" TextMode="Password" CssClass="form-input block w-full px-4 py-2 mt-1 text-base rounded-lg dark:text-white bg-background-light dark:bg-background-dark border border-gray-300 dark:border-[#323267] focus:outline-none focus:ring-primary focus:border-primary" placeholder="••••••••"></asp:TextBox>
                 </div>
                  <div>
                     <asp:Label ID="lblConfirmarPassword" runat="server" AssociatedControlID="txtConfirmarPassword" CssClass="block text-sm font-medium text-gray-700 dark:text-[#9292c9] mb-1">Confirmar Contraseña</asp:Label>
-                    <asp:TextBox ID="txtConfirmarPassword" runat="server" TextMode="Password" CssClass="form-input block w-full px-4 py-2 mt-1 text-base rounded-lg text-black dark:text-white bg-background-light dark:bg-background-dark border border-gray-300 dark:border-[#323267] focus:outline-none focus:ring-primary focus:border-primary" placeholder="••••••••"></asp:TextBox>
+                    <asp:TextBox ID="txtConfirmarPassword" runat="server" TextMode="Password" CssClass="form-input block w-full px-4 py-2 mt-1 text-base rounded-lg dark:text-white bg-background-light dark:bg-background-dark border border-gray-300 dark:border-[#323267] focus:outline-none focus:ring-primary focus:border-primary" placeholder="••••••••"></asp:TextBox>
                 </div>
+                <div class="mb-4">
+                     <asp:Label ID="lblError" runat="server" Text="" Visible="false" 
+                     CssClass="text-red-500 text-sm font-bold text-center block" />
+                 </div>
                 <div>
-                    <asp:Button ID="btnRegistrar" runat="server" Text="Registrarse" CssClass="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-bold text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors cursor-pointer" />
+                    <asp:Button ID="btnRegistrar" runat="server" Text="Registrarse" OnClick="btnRegistrar_Click" CssClass="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-bold text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors cursor-pointer" />
                 </div>
             </div>
              <p class="text-sm text-center text-gray-500 dark:text-[#9292c9]">

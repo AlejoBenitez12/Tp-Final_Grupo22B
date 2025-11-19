@@ -83,5 +83,20 @@ namespace TiendaGamingWebForms
             litImpuestos.Text = impuestos.ToString("C");
             litTotal.Text = total.ToString("C");
         }
+
+        protected void btnProcederPago_Click(object sender, EventArgs e)
+        {
+            if (Session["Usuario"] == null)
+            {
+                Response.Redirect("Login.aspx", false);
+            }
+            else
+            {
+                // Si SÍ está logueado, acá iría la lógica de compra (Hito 3/4).
+                // Por ahora, podemos redirigir a una página de "CompraExitosa" o "Checkout".
+                // Como no la tenemos, dejemos un comentario o redirijamos al Home por ahora.
+                Response.Redirect("Default.aspx", false);
+            }
+        }
     }
 }

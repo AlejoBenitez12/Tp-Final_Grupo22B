@@ -141,7 +141,7 @@
         </div>
 
 
-        <asp:LinkButton ID="btnProcederPago" runat="server" 
+        <asp:LinkButton ID="btnProcederPago" runat="server" OnClick="btnProcederPago_Click" 
             CssClass="w-full flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 bg-primary text-white gap-2 text-lg font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
             Proceder al Pago
             <span class="material-symbols-outlined">arrow_forward</span> 

@@ -74,5 +74,31 @@ namespace TiendaGamingWebForms
             }
         }
 
+        protected void btnListaDeseos_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string idStr = Request.QueryString["id"];
+                if (string.IsNullOrEmpty(idStr)) return;
+
+                int idProducto = Convert.ToInt32(idStr);
+
+                List<int> listaDeseos = Session["Wishlist"] as List<int> ?? new List<int>();
+
+                if (!listaDeseos.Contains(idProducto))
+                {
+                    listaDeseos.Add(idProducto);
+                }
+
+                Session["Wishlist"] = listaDeseos;
+
+                Response.Redirect(Request.RawUrl, false);
+            }
+            catch (Exception ex)
+            {
+                Response.Redirect("Default.aspx", false);
+            }
+        }
+
     }
 }

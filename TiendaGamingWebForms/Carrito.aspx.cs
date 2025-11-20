@@ -14,6 +14,11 @@ namespace TiendaGamingWebForms
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["Usuario"] == null)
+            {
+                Response.Redirect("Login.aspx", false);
+                return; 
+            }
 
             listaCarrito = Session["Carrito"] as List<ItemCarrito> ?? new List<ItemCarrito>();
 
@@ -92,10 +97,7 @@ namespace TiendaGamingWebForms
             }
             else
             {
-                // Si SÍ está logueado, acá iría la lógica de compra (Hito 3/4).
-                // Por ahora, podemos redirigir a una página de "CompraExitosa" o "Checkout".
-                // Como no la tenemos, dejemos un comentario o redirijamos al Home por ahora.
-                Response.Redirect("Default.aspx", false);
+                Response.Redirect("Checkout", false);
             }
         }
     }

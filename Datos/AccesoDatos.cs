@@ -459,5 +459,56 @@ namespace Datos
             return usuario;
         }
 
+        public void GuardarVenta(Venta nuevaVenta)
+        {
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                conexion.Open();
+                SqlTransaction transaccion = conexion.BeginTransaction();
+
+                try
+                {
+                    string consultaVenta = "INSERT INTO VENTAS (IdUsuario, Total, FechaVenta, Estado) VALUES (@IdUsuario, @Total, GETDATE(), 'Pagado'); SELECT CAST(SCOPE_IDENTITY() AS INT);";
+
+                    int idVentaGenerado;
+                    using (SqlCommand cmdVenta = new SqlCommand(consultaVenta, conexion, transaccion))
+                    {
+                        cmdVenta.Parameters.AddWithValue("@IdUsuario", nuevaVenta.IdUsuario);
+                        cmdVenta.Parameters.AddWithValue("@Total", nuevaVenta.Total);
+                        idVentaGenerado = (int)cmdVenta.ExecuteScalar();
+                    }
+
+                    string consultaDetalle = "INSERT INTO DETALLE_VENTAS (IdVenta, IdProducto, Cantidad, PrecioUnitario) VALUES (@IdVenta, @IdProducto, @Cantidad, @PrecioUnitario)";
+                    string consultaStock = "UPDATE PRODUCTOS SET Stock = Stock - @Cantidad WHERE Id = @IdProducto";
+
+                    foreach (var item in nuevaVenta.Items)
+                    {
+                        using (SqlCommand cmdDetalle = new SqlCommand(consultaDetalle, conexion, transaccion))
+                        {
+                            cmdDetalle.Parameters.AddWithValue("@IdVenta", idVentaGenerado);
+                            cmdDetalle.Parameters.AddWithValue("@IdProducto", item.IdProducto);
+                            cmdDetalle.Parameters.AddWithValue("@Cantidad", item.Cantidad);
+                            cmdDetalle.Parameters.AddWithValue("@PrecioUnitario", item.PrecioUnitario);
+                            cmdDetalle.ExecuteNonQuery();
+                        }
+
+                        using (SqlCommand cmdStock = new SqlCommand(consultaStock, conexion, transaccion))
+                        {
+                            cmdStock.Parameters.AddWithValue("@Cantidad", item.Cantidad);
+                            cmdStock.Parameters.AddWithValue("@IdProducto", item.IdProducto);
+                            cmdStock.ExecuteNonQuery();
+                        }
+                    }
+
+                    transaccion.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaccion.Rollback();
+                    throw new Exception("Error al registrar la venta. Transacción cancelada.", ex);
+                }
+            }
+        }
+
     }
 }

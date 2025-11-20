@@ -13,6 +13,12 @@ namespace TiendaGamingWebForms
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["Usuario"] == null)
+            {
+                Response.Redirect("Login.aspx", false);
+                return; 
+            }
+
             if (!IsPostBack)
             {
                 List<int> listaIds = Session["Wishlist"] as List<int>;

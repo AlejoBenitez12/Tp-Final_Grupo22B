@@ -56,6 +56,15 @@ namespace TiendaGamingWebForms
 
                 lnkLogin.Text = "<span class='material-symbols-outlined text-xl'>person</span> <span>" + nombreMostrar + "</span>";
                 btnSalir.Visible = true;
+
+                if (user.IsAdmin)
+                {
+                    lnkAdmin.Visible = true; 
+                }
+                else
+                {
+                    lnkAdmin.Visible = false; 
+                }
             }
             else
             {
@@ -63,6 +72,8 @@ namespace TiendaGamingWebForms
                 lnkLogin.NavigateUrl = "~/Login.aspx";
                 btnSalir.Visible = false;
             }
+
+
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)

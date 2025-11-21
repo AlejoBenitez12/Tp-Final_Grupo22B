@@ -127,6 +127,7 @@
     <Content Include="Exito.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Favoritos.aspx" />
+    <Content Include="GestionProducto.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
     <Content Include="PCs.aspx" />
@@ -275,6 +276,13 @@
     </Compile>
     <Compile Include="Gaming.Master.designer.cs">
       <DependentUpon>Gaming.Master</DependentUpon>
+    </Compile>
+    <Compile Include="GestionProducto.aspx.cs">
+      <DependentUpon>GestionProducto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GestionProducto.aspx.designer.cs">
+      <DependentUpon>GestionProducto.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

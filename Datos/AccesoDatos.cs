@@ -510,5 +510,29 @@ namespace Datos
             }
         }
 
+        public void Eliminar(int id)
+        {
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                string consulta = @"
+            DELETE FROM IMAGENES WHERE IdProducto = @id;
+            DELETE FROM PRODUCTOS WHERE Id = @id;";
+
+                using (SqlCommand comando = new SqlCommand(consulta, conexion))
+                {
+                    comando.Parameters.AddWithValue("@id", id);
+                    try
+                    {
+                        conexion.Open();
+                        comando.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Error al eliminar el producto.", ex);
+                    }
+                }
+            }
+        }
+
     }
 }

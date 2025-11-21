@@ -74,5 +74,17 @@ namespace Negocio
                 throw new Exception("Error al listar por IDs desde Negocio.", ex);
             }
         }
+        public void Eliminar(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.Eliminar(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

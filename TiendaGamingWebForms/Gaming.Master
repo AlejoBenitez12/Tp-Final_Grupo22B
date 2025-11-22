@@ -94,7 +94,7 @@
                         <asp:Button ID="btnSalir" runat="server" Text="Salir" Visible="false" OnClick="btnSalir_Click"
         CssClass="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-red-500/20 text-red-500 hover:bg-red-500 hover:text-white transition-colors gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 border-none" />
    
-                        <asp:HyperLink ID="lnkAdmin" runat="server" NavigateUrl="~/GestionProductos.aspx" Visible="false"
+                        <asp:HyperLink ID="lnkAdmin" runat="server" NavigateUrl="~/GestionProducto.aspx" Visible="false"
     CssClass="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-purple-600/20 text-purple-500 hover:bg-purple-600 hover:text-white transition-colors gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 ml-2">
     <span class="material-symbols-outlined text-xl">settings</span>
     <span>Admin</span>

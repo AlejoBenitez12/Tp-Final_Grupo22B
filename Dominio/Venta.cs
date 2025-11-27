@@ -14,6 +14,8 @@ namespace Dominio
         public decimal Total { get; set; }
         public string Estado { get; set; }
 
+        public string EmailUsuario { get; set; }
+
         // Una venta tiene una lista de items
         public List<DetalleVenta> Items { get; set; }
 

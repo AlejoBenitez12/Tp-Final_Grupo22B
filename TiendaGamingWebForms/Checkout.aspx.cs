@@ -112,6 +112,7 @@ namespace TiendaGamingWebForms
             {
                 DetalleVenta detalle = new DetalleVenta();
                 detalle.IdProducto = item.Producto.Id;
+                detalle.NombreProducto = item.Producto.Nombre;
                 detalle.Cantidad = item.Cantidad;
                 detalle.PrecioUnitario = item.Producto.Precio;
                 nuevaVenta.Items.Add(detalle);
@@ -119,6 +120,16 @@ namespace TiendaGamingWebForms
 
             VentaNegocio negocio = new VentaNegocio();
             negocio.FinalizarVenta(nuevaVenta);
+
+            try
+            {
+                EmailService emailService = new EmailService();
+                emailService.EnviarConfirmacionCompra(nuevaVenta, user.Email);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

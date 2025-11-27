@@ -124,11 +124,13 @@
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="DetalleProducto.aspx" />
+    <Content Include="DetalleVentaAdmin.aspx" />
     <Content Include="Exito.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Favoritos.aspx" />
     <Content Include="FormularioProducto.aspx" />
     <Content Include="GestionProducto.aspx" />
+    <Content Include="GestionVentas.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
     <Content Include="PCs.aspx" />
@@ -257,6 +259,13 @@
     <Compile Include="DetalleProducto.aspx.designer.cs">
       <DependentUpon>DetalleProducto.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DetalleVentaAdmin.aspx.cs">
+      <DependentUpon>DetalleVentaAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DetalleVentaAdmin.aspx.designer.cs">
+      <DependentUpon>DetalleVentaAdmin.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Exito.aspx.cs">
       <DependentUpon>Exito.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -291,6 +300,13 @@
     </Compile>
     <Compile Include="GestionProducto.aspx.designer.cs">
       <DependentUpon>GestionProducto.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GestionVentas.aspx.cs">
+      <DependentUpon>GestionVentas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GestionVentas.aspx.designer.cs">
+      <DependentUpon>GestionVentas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

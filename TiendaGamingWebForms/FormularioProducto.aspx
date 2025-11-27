@@ -60,7 +60,7 @@
                CssClass="text-red-500 text-sm font-bold text-center block" />
         </div>
         <div class="flex justify-end gap-4 mt-8 pt-4 border-t border-gray-700">
-            <a href="GestionProductos.aspx" class="px-6 py-2 rounded-lg border border-gray-500 text-gray-300 hover:bg-gray-700 transition-colors no-underline flex items-center justify-center">Cancelar</a>
+            <a href="GestionProducto.aspx" class="px-6 py-2 rounded-lg border border-gray-500 text-gray-300 hover:bg-gray-700 transition-colors no-underline flex items-center justify-center">Cancelar</a>
             <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" OnClick="btnAceptar_Click" 
                         CssClass="px-6 py-2 rounded-lg bg-primary text-white font-bold hover:bg-primary/90 transition-colors cursor-pointer border-none" />
         </div>

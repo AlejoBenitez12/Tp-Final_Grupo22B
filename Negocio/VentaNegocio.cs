@@ -22,5 +22,25 @@ namespace Negocio
                 throw ex;
             }
         }
+
+        public List<Venta> ListarVentas()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                return datos.ListarVentas();
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+        public Venta TraerVentaPorId(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                return datos.TraerVentaPorId(id);
+            }
+            catch (Exception ex) { throw ex; }
+        }
     }
 }

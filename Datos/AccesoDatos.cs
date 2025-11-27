@@ -786,5 +786,128 @@ namespace Datos
             }
         }
 
+        public List<Venta> ListarVentas()
+        {
+            List<Venta> lista = new List<Venta>();
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                string consulta = @"
+            SELECT V.Id, V.IdUsuario, V.FechaVenta, V.Total, V.Estado, U.Email
+            FROM VENTAS V
+            INNER JOIN USUARIOS U ON V.IdUsuario = U.Id
+            ORDER BY V.FechaVenta DESC"; // Las más recientes primero
+
+                using (SqlCommand comando = new SqlCommand(consulta, conexion))
+                {
+                    try
+                    {
+                        conexion.Open();
+                        using (SqlDataReader lector = comando.ExecuteReader())
+                        {
+                            while (lector.Read())
+                            {
+                                Venta venta = new Venta();
+                                venta.Id = (int)lector["Id"];
+                                venta.IdUsuario = (int)lector["IdUsuario"];
+                                venta.Fecha = (DateTime)lector["FechaVenta"];
+                                venta.Total = (decimal)lector["Total"];
+                                venta.Estado = (string)lector["Estado"];
+
+                                venta.EmailUsuario = (string)lector["Email"]; 
+
+                                lista.Add(venta);
+                            }
+                        }
+                    }
+                    catch (Exception ex) { throw new Exception("Error al listar ventas.", ex); }
+                }
+            }
+            return lista;
+        }
+
+        public Venta TraerVentaPorId(int idVenta)
+        {
+            Venta venta = null;
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                // 1. Traer la Cabecera
+                string consultaCabecera = "SELECT V.Id, V.IdUsuario, V.FechaVenta, V.Total, V.Estado, U.Email FROM VENTAS V INNER JOIN USUARIOS U ON V.IdUsuario = U.Id WHERE V.Id = @Id";
+                using (SqlCommand cmd = new SqlCommand(consultaCabecera, conexion))
+                {
+                    cmd.Parameters.AddWithValue("@Id", idVenta);
+                    try
+                    {
+                        conexion.Open();
+                        using (SqlDataReader lector = cmd.ExecuteReader())
+                        {
+                            if (lector.Read())
+                            {
+                                venta = new Venta();
+                                venta.Id = (int)lector["Id"];
+                                venta.IdUsuario = (int)lector["IdUsuario"];
+                                venta.Fecha = (DateTime)lector["FechaVenta"];
+                                venta.Total = (decimal)lector["Total"];
+                                venta.Estado = (string)lector["Estado"];
+                                venta.EmailUsuario = (string)lector["Email"]; // (Asegúrate de haber agregado esta propiedad a Venta.cs)
+                            }
+                        }
+                    }
+                    catch (Exception ex) { throw ex; }
+                }
+
+                // 2. Traer los Detalles (si encontramos la venta)
+                if (venta != null)
+                {
+                    string consultaDetalles = @"
+                SELECT D.Id, D.IdProducto, D.Cantidad, D.PrecioUnitario, P.Nombre, P.Codigo 
+                FROM DETALLE_VENTAS D 
+                INNER JOIN PRODUCTOS P ON D.IdProducto = P.Id 
+                WHERE D.IdVenta = @IdVenta";
+
+                    using (SqlCommand cmd = new SqlCommand(consultaDetalles, conexion))
+                    {
+                        cmd.Parameters.AddWithValue("@IdVenta", idVenta);
+                        using (SqlDataReader lector = cmd.ExecuteReader())
+                        {
+                            while (lector.Read())
+                            {
+                                DetalleVenta detalle = new DetalleVenta();
+                                detalle.Id = (int)lector["Id"];
+                                detalle.IdProducto = (int)lector["IdProducto"];
+                                detalle.Cantidad = (int)lector["Cantidad"];
+                                detalle.PrecioUnitario = (decimal)lector["PrecioUnitario"];
+                                detalle.NombreProducto = (string)lector["Nombre"]; 
+
+                                venta.Items.Add(detalle);
+                            }
+                        }
+                    }
+                }
+            }
+            return venta;
+        }
+
+        public bool ExisteUsuario(string email)
+        {
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                string consulta = "SELECT COUNT(*) FROM USUARIOS WHERE Email = @email";
+                using (SqlCommand comando = new SqlCommand(consulta, conexion))
+                {
+                    comando.Parameters.AddWithValue("@email", email);
+                    try
+                    {
+                        conexion.Open();
+                        int cantidad = (int)comando.ExecuteScalar();
+                        return cantidad > 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Error al verificar usuario.", ex);
+                    }
+                }
+            }
+        }
+
     }
 }

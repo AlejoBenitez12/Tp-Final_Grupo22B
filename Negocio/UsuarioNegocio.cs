@@ -19,6 +19,12 @@ namespace Negocio
             }
 
             AccesoDatos datos = new AccesoDatos();
+
+            if (datos.ExisteUsuario(nuevo.Email))
+            {
+                throw new Exception("El email ingresado ya se encuentra registrado.");
+            }
+
             try
             {
                 datos.InsertarUsuario(nuevo);

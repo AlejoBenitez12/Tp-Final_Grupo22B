@@ -37,9 +37,17 @@ namespace TiendaGamingWebForms
                 btnSalir.Visible = true;
 
                 if (user.IsAdmin)
+                {
+
+
                     lnkAdmin.Visible = true;
+                    lnkAdminVentas.Visible = true;
+                }
                 else
+                {
                     lnkAdmin.Visible = false;
+                    lnkAdminVentas.Visible = false;
+                }
             }
             else
             {

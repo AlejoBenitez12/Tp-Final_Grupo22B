@@ -13,6 +13,12 @@ namespace TiendaGamingWebForms
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Seguridad.EsAdmin(Session["Usuario"]))
+            {
+                Response.Redirect("Default.aspx");
+                return;
+            }
+
             if (!IsPostBack)
             {
                 CargarDesplegables();

@@ -25,6 +25,13 @@ namespace TiendaGamingWebForms
 
                     if (ProductoSeleccionado != null)
                     {
+                        if (ProductoSeleccionado.Stock <= 0)
+                        {
+                            btnAgregarCarrito.Enabled = false;
+                            btnAgregarCarrito.Text = "Sin Stock";
+                            btnAgregarCarrito.CssClass += " opacity-50 cursor-not-allowed"; // Estilo deshabilitado de Tailwind
+                        }
+
                         Page.DataBind();
                     }
                 }
@@ -41,10 +48,29 @@ namespace TiendaGamingWebForms
                     return;
                 }
 
+                ProductoNegocio negocio = new ProductoNegocio();
+                Producto productoAAgregar = negocio.BuscarPorId(Convert.ToInt32(id));
+
+                if (productoAAgregar == null || productoAAgregar.Stock <= 0)
+                {
+                    return;
+                }
+
                 List<ItemCarrito> listaCarrito = Session["Carrito"] as List<ItemCarrito> ?? new List<ItemCarrito>();
 
                 int cantidad = Convert.ToInt32(ddlCantidad.SelectedValue);
+
                 ItemCarrito itemExistente = listaCarrito.Find(item => item.Producto.Id == Convert.ToInt32(id));
+
+                int cantidadActualEnCarrito = 0;
+                if (itemExistente != null)
+                {
+                    cantidadActualEnCarrito = itemExistente.Cantidad;
+                }
+                if (cantidadActualEnCarrito + cantidad > productoAAgregar.Stock)
+                {
+                    return;
+                }
 
                 if (itemExistente != null)
                 {
@@ -52,20 +78,13 @@ namespace TiendaGamingWebForms
                 }
                 else
                 {
-                    ProductoNegocio negocio = new ProductoNegocio();
-                    Producto productoAAgregar = negocio.BuscarPorId(Convert.ToInt32(id));
-
-                    if (productoAAgregar != null)
-                    {
-                        ItemCarrito nuevoItem = new ItemCarrito();
-                        nuevoItem.Producto = productoAAgregar;
-                        nuevoItem.Cantidad = cantidad;
-                        listaCarrito.Add(nuevoItem);
-                    }
+                    ItemCarrito nuevoItem = new ItemCarrito();
+                    nuevoItem.Producto = productoAAgregar;
+                    nuevoItem.Cantidad = cantidad;
+                    listaCarrito.Add(nuevoItem);
                 }
 
                 Session["Carrito"] = listaCarrito;
-
                 Response.Redirect("Carrito.aspx", false);
             }
             catch (Exception ex)

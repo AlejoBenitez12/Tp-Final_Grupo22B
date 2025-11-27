@@ -49,6 +49,19 @@ namespace Negocio
             }
         }
 
+        public List<Producto> ListarPorMarca(int idMarca)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                return datos.ListarPorMarca(idMarca);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar por marca desde Negocio.", ex);
+            }
+        }
+
         public List<Producto> ListarPorBusqueda(string termino)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -85,6 +98,38 @@ namespace Negocio
             {
                 throw ex;
             }
+        }
+
+        public void Agregar(Producto nuevo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            if (datos.ExisteProducto(nuevo.Codigo, nuevo.Nombre, 0))
+            {
+                throw new Exception("Ya existe un producto con ese Código o ese Nombre.");
+            }
+
+            try
+            {
+                datos.Agregar(nuevo);
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+        public void Modificar(Producto producto)
+        {
+            AccesoDatos datos=new AccesoDatos();
+
+            if (datos.ExisteProducto(producto.Codigo, producto.Nombre, producto.Id))
+            {
+                throw new Exception("Ya existe otro producto con ese Código o ese Nombre.");
+            }
+
+            try
+            {
+                datos.Modificar(producto);
+            }
+            catch (Exception ex) { throw ex; }
         }
     }
 }

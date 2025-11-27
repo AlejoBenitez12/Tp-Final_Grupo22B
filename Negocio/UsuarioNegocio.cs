@@ -33,8 +33,6 @@ namespace Negocio
         {
 
             string patron = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$";
-            //Este patron lo uso para generar todas las validaciones de contraseña que quiero, como por ejemplo mínimo una miúscula, una mayúscula, un número y caracter especial
-
             return Regex.IsMatch(password, patron);
         }
 

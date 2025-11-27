@@ -70,20 +70,22 @@
                 </div>
                 <div class="flex flex-1 justify-end items-center gap-3">
 
-                <div class="hidden md:flex flex-row min-w-40 !h-10 max-w-64"> 
-                    <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
-                        
+                <asp:Panel runat="server" DefaultButton="btnBuscar" CssClass="hidden md:flex flex-row min-w-40 !h-10 max-w-64">
+    
+    <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+        
+        <asp:TextBox ID="txtBuscar" runat="server" 
+                     CssClass="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-l-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-none bg-white/5 focus:border-none h-full placeholder:text-white/60 px-4 text-sm font-normal leading-normal" 
+                     placeholder="Buscar productos..."></asp:TextBox>
 
-                        <asp:TextBox ID="txtBuscar" runat="server" 
-                                     CssClass="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-l-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-none bg-white/5 focus:border-none h-full placeholder:text-white/60 px-4 text-sm font-normal leading-normal" 
-                                     placeholder="Buscar productos..."></asp:TextBox>
+        <asp:LinkButton ID="btnBuscar" runat="server" OnClick="btnBuscar_Click" 
+                        CssClass="text-white/60 flex border-none bg-white/5 items-center justify-center px-3 rounded-r-lg border-l-0 hover:bg-primary hover:text-white">
+            <span class="material-symbols-outlined">search</span>
+        </asp:LinkButton>
 
-                        <asp:LinkButton ID="btnBuscar" runat="server" OnClick="btnBuscar_Click" 
-                                      CssClass="text-white/60 flex border-none bg-white/5 items-center justify-center px-3 rounded-r-lg border-l-0 hover:bg-primary hover:text-white">
-                            <span class="material-symbols-outlined">search</span>
-                        </asp:LinkButton>
-                    </div>
-                </div>
+    </div>
+
+</asp:Panel>
                     <div class="flex gap-2">
 
                         <asp:HyperLink ID="lnkLogin" runat="server" NavigateUrl="~/Login.aspx"

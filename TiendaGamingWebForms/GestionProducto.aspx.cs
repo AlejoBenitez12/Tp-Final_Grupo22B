@@ -18,6 +18,13 @@ namespace TiendaGamingWebForms
                 Response.Redirect("Default.aspx");
             }
 
+            if (Session["Mensaje"] != null)
+            {
+                lblMensaje.Text = Session["Mensaje"].ToString();
+                pnlMensaje.Visible = true;
+                Session.Remove("Mensaje");
+            }
+
             if (!IsPostBack)
             {
                 CargarGrilla();

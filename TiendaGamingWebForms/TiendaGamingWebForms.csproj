@@ -127,6 +127,7 @@
     <Content Include="Exito.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Favoritos.aspx" />
+    <Content Include="FormularioProducto.aspx" />
     <Content Include="GestionProducto.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
@@ -269,6 +270,13 @@
     </Compile>
     <Compile Include="Favoritos.aspx.designer.cs">
       <DependentUpon>Favoritos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormularioProducto.aspx.cs">
+      <DependentUpon>FormularioProducto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormularioProducto.aspx.designer.cs">
+      <DependentUpon>FormularioProducto.aspx</DependentUpon>
     </Compile>
     <Compile Include="Gaming.Master.cs">
       <DependentUpon>Gaming.Master</DependentUpon>

@@ -29,6 +29,7 @@ namespace Datos
                     LEFT JOIN MARCAS M ON P.IdMarca = M.Id
                     LEFT JOIN CATEGORIAS C ON P.IdCategoria = C.Id
                     LEFT JOIN IMAGENES I ON P.Id = I.IdProducto
+                    WHERE P.Activo = 1
                     ORDER BY P.Id";
 
                 using (SqlCommand comando = new SqlCommand(consulta, conexion))
@@ -103,7 +104,7 @@ namespace Datos
             LEFT JOIN MARCAS M ON P.IdMarca = M.Id
             LEFT JOIN CATEGORIAS C ON P.IdCategoria = C.Id
             LEFT JOIN IMAGENES I ON P.Id = I.IdProducto
-            WHERE P.Id = @id"; 
+            WHERE P.Id = @id AND P.Activo = 1"; 
 
                 using (SqlCommand comando = new SqlCommand(consulta, conexion))
                 {
@@ -172,7 +173,7 @@ namespace Datos
             LEFT JOIN MARCAS M ON P.IdMarca = M.Id
             LEFT JOIN CATEGORIAS C ON P.IdCategoria = C.Id
             LEFT JOIN IMAGENES I ON P.Id = I.IdProducto
-            WHERE P.IdCategoria = @idCategoria  
+            WHERE P.IdCategoria = @idCategoria AND P.Activo = 1
             ORDER BY P.Id";
 
                 using (SqlCommand comando = new SqlCommand(consulta, conexion))
@@ -241,19 +242,20 @@ namespace Datos
             {
                 string consulta = @"
             SELECT 
-                P.Id, P.Codigo, P.Nombre, P.Descripcion, P.Precio, P.Stock,
-                M.Id AS IdMarca, M.Descripcion AS DescripcionMarca,
-                C.Id AS IdCategoria, C.Descripcion AS DescripcionCategoria,
-                I.ImagenUrl
-            FROM PRODUCTOS P
-            LEFT JOIN MARCAS M ON P.IdMarca = M.Id
-            LEFT JOIN CATEGORIAS C ON P.IdCategoria = C.Id
-            LEFT JOIN IMAGENES I ON P.Id = I.IdProducto
-            WHERE P.Nombre LIKE @termino 
-               OR P.Descripcion LIKE @termino 
-               OR M.Descripcion LIKE @termino 
-               OR C.Descripcion LIKE @termino
-            ORDER BY P.Id";
+             P.Id, P.Codigo, P.Nombre, P.Descripcion, P.Precio, P.Stock,
+             M.Id AS IdMarca, M.Descripcion AS DescripcionMarca,
+              C.Id AS IdCategoria, C.Descripcion AS DescripcionCategoria,
+              I.ImagenUrl
+              FROM PRODUCTOS P
+             LEFT JOIN MARCAS M ON P.IdMarca = M.Id
+             LEFT JOIN CATEGORIAS C ON P.IdCategoria = C.Id
+             LEFT JOIN IMAGENES I ON P.Id = I.IdProducto
+             WHERE (P.Nombre LIKE @termino 
+                OR P.Descripcion LIKE @termino 
+                OR M.Descripcion LIKE @termino 
+                OR C.Descripcion LIKE @termino) 
+                AND P.Activo = 1  
+                ORDER BY P.Id";
 
                 using (SqlCommand comando = new SqlCommand(consulta, conexion))
                 {
@@ -342,6 +344,7 @@ namespace Datos
             LEFT JOIN CATEGORIAS C ON P.IdCategoria = C.Id
             LEFT JOIN IMAGENES I ON P.Id = I.IdProducto
             WHERE P.Id IN ({string.Join(", ", listaNombresParametros)})
+            AND P.Activo = 1
             ORDER BY P.Id";
 
                 using (SqlCommand comando = new SqlCommand(consulta, conexion))
@@ -352,7 +355,6 @@ namespace Datos
                         conexion.Open();
                         using (SqlDataReader lector = comando.ExecuteReader())
                         {
-                            // ***** ¡SOLO UN BLOQUE WHILE! *****
                             while (lector.Read())
                             {
                                 int idProducto = (int)lector["Id"];
@@ -529,6 +531,256 @@ namespace Datos
                     catch (Exception ex)
                     {
                         throw new Exception("Error al eliminar el producto.", ex);
+                    }
+                }
+            }
+        }
+
+        public void Agregar(Producto nuevo)
+        {
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                conexion.Open();
+
+                string consultaProducto = "INSERT INTO PRODUCTOS (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio, Stock, Activo) VALUES (@Codigo, @Nombre, @Descripcion, @IdMarca, @IdCategoria, @Precio, @Stock, 1); SELECT CAST(SCOPE_IDENTITY() AS INT);";
+
+                int idProductoGenerado;
+
+                using (SqlCommand comando = new SqlCommand(consultaProducto, conexion))
+                {
+                    comando.Parameters.AddWithValue("@Codigo", nuevo.Codigo);
+                    comando.Parameters.AddWithValue("@Nombre", nuevo.Nombre);
+                    comando.Parameters.AddWithValue("@Descripcion", nuevo.Descripcion);
+                    comando.Parameters.AddWithValue("@IdMarca", nuevo.Marca.Id);
+                    comando.Parameters.AddWithValue("@IdCategoria", nuevo.Categoria.Id);
+                    comando.Parameters.AddWithValue("@Precio", nuevo.Precio);
+                    comando.Parameters.AddWithValue("@Stock", nuevo.Stock);
+
+                    try
+                    {
+                        idProductoGenerado = (int)comando.ExecuteScalar();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Error al insertar producto.", ex);
+                    }
+                }
+
+                if (nuevo.Imagenes != null && nuevo.Imagenes.Count > 0)
+                {
+                    string consultaImagen = "INSERT INTO IMAGENES (IdProducto, ImagenUrl) VALUES (@IdProducto, @ImagenUrl)";
+                    using (SqlCommand cmdImagen = new SqlCommand(consultaImagen, conexion))
+                    {
+                        cmdImagen.Parameters.AddWithValue("@IdProducto", idProductoGenerado);
+                        cmdImagen.Parameters.AddWithValue("@ImagenUrl", nuevo.Imagenes[0]);
+                        cmdImagen.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
+        public List<Producto> ListarPorMarca(int idMarca)
+        {
+            List<Producto> lista = new List<Producto>();
+            var productosDiccionario = new Dictionary<int, Producto>();
+
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                string consulta = @"
+            SELECT 
+                P.Id, P.Codigo, P.Nombre, P.Descripcion, P.Precio, P.Stock,
+                M.Id AS IdMarca, M.Descripcion AS DescripcionMarca,
+                C.Id AS IdCategoria, C.Descripcion AS DescripcionCategoria,
+                I.ImagenUrl
+            FROM PRODUCTOS P
+            LEFT JOIN MARCAS M ON P.IdMarca = M.Id
+            LEFT JOIN CATEGORIAS C ON P.IdCategoria = C.Id
+            LEFT JOIN IMAGENES I ON P.Id = I.IdProducto
+            WHERE P.IdMarca = @idMarca  -- ¡AQUÍ ESTÁ EL CAMBIO!
+            AND P.Activo = 1
+            ORDER BY P.Id";
+
+                using (SqlCommand comando = new SqlCommand(consulta, conexion))
+                {
+                    comando.Parameters.AddWithValue("@idMarca", idMarca);
+                    try
+                    {
+                        conexion.Open();
+                        using (SqlDataReader lector = comando.ExecuteReader())
+                        {
+                            while (lector.Read())
+                            {
+                                int idProducto = (int)lector["Id"];
+                                Producto productoActual;
+
+                                if (!productosDiccionario.ContainsKey(idProducto))
+                                {
+                                    productoActual = new Producto();
+                                    productoActual.Id = idProducto;
+                                    productoActual.Codigo = (string)lector["Codigo"];
+                                    productoActual.Nombre = (string)lector["Nombre"];
+                                    productoActual.Descripcion = (string)lector["Descripcion"];
+
+                                    if (lector["Precio"] != DBNull.Value)
+                                        productoActual.Precio = (decimal)lector["Precio"];
+
+                                    productoActual.Stock = (int)lector["Stock"];
+
+                                    if (lector["IdMarca"] != DBNull.Value)
+                                        productoActual.Marca = new Marca { Id = (int)lector["IdMarca"], Descripcion = (string)lector["DescripcionMarca"] };
+                                    else
+                                        productoActual.Marca = new Marca { Descripcion = "Sin Marca" };
+
+                                    if (lector["IdCategoria"] != DBNull.Value)
+                                        productoActual.Categoria = new Categoria { Id = (int)lector["IdCategoria"], Descripcion = (string)lector["DescripcionCategoria"] };
+                                    else
+                                        productoActual.Categoria = new Categoria { Descripcion = "Sin Categoría" };
+
+                                    productosDiccionario.Add(idProducto, productoActual);
+                                }
+                                else
+                                {
+                                    productoActual = productosDiccionario[idProducto];
+                                }
+
+                                if (lector["ImagenUrl"] != DBNull.Value)
+                                {
+                                    productoActual.Imagenes.Add((string)lector["ImagenUrl"]);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex) { throw new Exception("Error al listar por marca.", ex); }
+                }
+            }
+            lista = new List<Producto>(productosDiccionario.Values);
+            return lista;
+        }
+
+        public void Modificar(Producto producto)
+        {
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                string consulta = "UPDATE PRODUCTOS SET Codigo = @Codigo, Nombre = @Nombre, Descripcion = @Descripcion, IdMarca = @IdMarca, IdCategoria = @IdCategoria, Precio = @Precio, Stock = @Stock WHERE Id = @Id";
+
+                using (SqlCommand comando = new SqlCommand(consulta, conexion))
+                {
+                    comando.Parameters.AddWithValue("@Codigo", producto.Codigo);
+                    comando.Parameters.AddWithValue("@Nombre", producto.Nombre);
+                    comando.Parameters.AddWithValue("@Descripcion", producto.Descripcion);
+                    comando.Parameters.AddWithValue("@IdMarca", producto.Marca.Id);
+                    comando.Parameters.AddWithValue("@IdCategoria", producto.Categoria.Id);
+                    comando.Parameters.AddWithValue("@Precio", producto.Precio);
+                    comando.Parameters.AddWithValue("@Stock", producto.Stock);
+                    comando.Parameters.AddWithValue("@Id", producto.Id); 
+
+                    try
+                    {
+                        conexion.Open();
+                        comando.ExecuteNonQuery();
+                    }
+                    catch (Exception ex) { throw new Exception("Error al modificar producto.", ex); }
+                }
+                if (producto.Imagenes != null && producto.Imagenes.Count > 0)
+                {
+                    string consultaBorrarImg = "DELETE FROM IMAGENES WHERE IdProducto = @Id";
+                    string consultaInsertarImg = "INSERT INTO IMAGENES (IdProducto, ImagenUrl) VALUES (@Id, @Url)";
+
+                    using (SqlCommand cmdBorrar = new SqlCommand(consultaBorrarImg, conexion))
+                    {
+                        cmdBorrar.Parameters.AddWithValue("@Id", producto.Id);
+                        cmdBorrar.ExecuteNonQuery();
+                    }
+
+                    using (SqlCommand cmdInsertar = new SqlCommand(consultaInsertarImg, conexion))
+                    {
+                        cmdInsertar.Parameters.AddWithValue("@Id", producto.Id);
+                        cmdInsertar.Parameters.AddWithValue("@Url", producto.Imagenes[0]);
+                        cmdInsertar.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
+        public List<Categoria> ListarCategorias()
+        {
+            List<Categoria> lista = new List<Categoria>();
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                string consulta = "SELECT Id, Descripcion FROM CATEGORIAS";
+                using (SqlCommand comando = new SqlCommand(consulta, conexion))
+                {
+                    try
+                    {
+                        conexion.Open();
+                        using (SqlDataReader lector = comando.ExecuteReader())
+                        {
+                            while (lector.Read())
+                            {
+                                lista.Add(new Categoria
+                                {
+                                    Id = (int)lector["Id"],
+                                    Descripcion = (string)lector["Descripcion"]
+                                });
+                            }
+                        }
+                    }
+                    catch (Exception ex) { throw new Exception("Error al listar categorías.", ex); }
+                }
+            }
+            return lista;
+        }
+
+        public List<Marca> ListarMarcas()
+        {
+            List<Marca> lista = new List<Marca>();
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                string consulta = "SELECT Id, Descripcion FROM MARCAS";
+                using (SqlCommand comando = new SqlCommand(consulta, conexion))
+                {
+                    try
+                    {
+                        conexion.Open();
+                        using (SqlDataReader lector = comando.ExecuteReader())
+                        {
+                            while (lector.Read())
+                            {
+                                lista.Add(new Marca
+                                {
+                                    Id = (int)lector["Id"],
+                                    Descripcion = (string)lector["Descripcion"]
+                                });
+                            }
+                        }
+                    }
+                    catch (Exception ex) { throw new Exception("Error al listar marcas.", ex); }
+                }
+            }
+            return lista;
+        }
+
+        public bool ExisteProducto(string codigo, string nombre, int idExcluir)
+        {
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                string consulta = "SELECT COUNT(*) FROM PRODUCTOS WHERE (Codigo = @codigo OR Nombre = @nombre) AND Id != @idExcluir AND Activo = 1";
+
+                using (SqlCommand comando = new SqlCommand(consulta, conexion))
+                {
+                    comando.Parameters.AddWithValue("@codigo", codigo);
+                    comando.Parameters.AddWithValue("@nombre", nombre);
+                    comando.Parameters.AddWithValue("@idExcluir", idExcluir);
+
+                    try
+                    {
+                        conexion.Open();
+                        int cantidad = (int)comando.ExecuteScalar();
+                        return cantidad > 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Error al verificar duplicados.", ex);
                     }
                 }
             }

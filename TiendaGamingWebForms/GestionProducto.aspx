@@ -8,6 +8,11 @@
             <a href="FormularioProducto.aspx" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                 + Nuevo Producto
             </a>
+            <asp:Panel ID="pnlMensaje" runat="server" Visible="false" 
+               CssClass="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
+        <strong class="font-bold">¡Éxito!</strong>
+        <asp:Label ID="lblMensaje" runat="server" CssClass="block sm:inline"></asp:Label>
+    </asp:Panel>
         </div>
 
         <div class="overflow-x-auto bg-white/5 rounded-lg">

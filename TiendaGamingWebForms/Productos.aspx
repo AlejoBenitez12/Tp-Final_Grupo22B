@@ -15,8 +15,7 @@
             <div class="bg-white/5 dark:bg-[#191933] rounded-lg overflow-hidden flex flex-col group transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/20 border border-transparent hover:border-primary/50">
                 
                 <div class="bg-cover bg-center aspect-square" 
-                     style='background-image: url("<%# Eval("Imagenes[0]") %>");'> 
-                </div>
+                    style='background-image: url("<%# (Convert.ToInt32(Eval("Imagenes.Count")) > 0) ? Eval("Imagenes[0]") : "https://via.placeholder.com/400x400.png?text=Sin+Imagen" %>");'>                </div>
 
                 <div class="p-4 flex flex-col flex-grow">
                     <h3 class="text-white font-bold text-lg leading-tight truncate"><%# Eval("Nombre") %></h3>

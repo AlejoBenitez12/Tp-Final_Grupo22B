@@ -35,6 +35,7 @@ namespace TiendaGamingWebForms
                 lnkLogin.Text = "<span class='material-symbols-outlined text-xl'>person</span> <span>" + nombreMostrar + "</span>";
                 lnkLogin.NavigateUrl = "#";
                 btnSalir.Visible = true;
+                lnkMisCompras.Visible = true;
 
                 if (user.IsAdmin)
                 {

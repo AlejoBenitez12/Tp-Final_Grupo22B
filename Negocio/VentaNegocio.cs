@@ -42,5 +42,28 @@ namespace Negocio
             }
             catch (Exception ex) { throw ex; }
         }
+
+        public List<Venta> ListarVentasPorCliente(int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                return datos.ListarVentasPorCliente(idUsuario);
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+        public void ActualizarEstado(int idVenta, string nuevoEstado)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.ActualizarEstadoVenta(idVenta, nuevoEstado);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

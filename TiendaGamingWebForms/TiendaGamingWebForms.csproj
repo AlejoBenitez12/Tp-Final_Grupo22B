@@ -133,6 +133,7 @@
     <Content Include="GestionVentas.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
+    <Content Include="MisCompas.aspx" />
     <Content Include="PCs.aspx" />
     <Content Include="Perifericos.aspx" />
     <Content Include="Productos.aspx" />
@@ -317,6 +318,13 @@
     </Compile>
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MisCompas.aspx.cs">
+      <DependentUpon>MisCompas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MisCompas.aspx.designer.cs">
+      <DependentUpon>MisCompas.aspx</DependentUpon>
     </Compile>
     <Compile Include="PCs.aspx.cs">
       <DependentUpon>PCs.aspx</DependentUpon>

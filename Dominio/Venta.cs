@@ -15,8 +15,10 @@ namespace Dominio
         public string Estado { get; set; }
 
         public string EmailUsuario { get; set; }
+        public string FormaPago { get; set; }
+        public string TipoEnvio { get; set; }
+        public string DireccionEnvio { get; set; }
 
-        // Una venta tiene una lista de items
         public List<DetalleVenta> Items { get; set; }
 
         public Venta()

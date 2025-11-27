@@ -29,5 +29,22 @@ namespace TiendaGamingWebForms
             gvVentas.DataSource = negocio.ListarVentas();
             gvVentas.DataBind();
         }
+
+        protected void gvVentas_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "ActualizarEstado")
+            {
+                int idVenta = Convert.ToInt32(e.CommandArgument);
+
+                GridViewRow row = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
+                DropDownList ddl = (DropDownList)row.FindControl("ddlEstadoGrid");
+                string nuevoEstado = ddl.SelectedValue;
+
+                VentaNegocio negocio = new VentaNegocio();
+                negocio.ActualizarEstado(idVenta, nuevoEstado);
+
+                CargarVentas();
+            }
+        }
     }
 }

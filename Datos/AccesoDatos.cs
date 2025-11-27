@@ -470,13 +470,24 @@ namespace Datos
 
                 try
                 {
-                    string consultaVenta = "INSERT INTO VENTAS (IdUsuario, Total, FechaVenta, Estado) VALUES (@IdUsuario, @Total, GETDATE(), 'Pagado'); SELECT CAST(SCOPE_IDENTITY() AS INT);";
+                    string consultaVenta = @"INSERT INTO VENTAS (IdUsuario, Total, FechaVenta, Estado, FormaPago, TipoEnvio, DireccionEnvio) 
+                                     VALUES (@IdUsuario, @Total, GETDATE(), 'Pagado', @FormaPago, @TipoEnvio, @DireccionEnvio); 
+                                     SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
                     int idVentaGenerado;
                     using (SqlCommand cmdVenta = new SqlCommand(consultaVenta, conexion, transaccion))
                     {
                         cmdVenta.Parameters.AddWithValue("@IdUsuario", nuevaVenta.IdUsuario);
                         cmdVenta.Parameters.AddWithValue("@Total", nuevaVenta.Total);
+
+                        cmdVenta.Parameters.AddWithValue("@FormaPago", nuevaVenta.FormaPago);
+                        cmdVenta.Parameters.AddWithValue("@TipoEnvio", nuevaVenta.TipoEnvio);
+
+                        if (string.IsNullOrEmpty(nuevaVenta.DireccionEnvio))
+                            cmdVenta.Parameters.AddWithValue("@DireccionEnvio", DBNull.Value);
+                        else
+                            cmdVenta.Parameters.AddWithValue("@DireccionEnvio", nuevaVenta.DireccionEnvio);
+
                         idVentaGenerado = (int)cmdVenta.ExecuteScalar();
                     }
 
@@ -795,7 +806,7 @@ namespace Datos
             SELECT V.Id, V.IdUsuario, V.FechaVenta, V.Total, V.Estado, U.Email
             FROM VENTAS V
             INNER JOIN USUARIOS U ON V.IdUsuario = U.Id
-            ORDER BY V.FechaVenta DESC"; // Las más recientes primero
+            ORDER BY V.FechaVenta DESC"; 
 
                 using (SqlCommand comando = new SqlCommand(consulta, conexion))
                 {
@@ -830,7 +841,6 @@ namespace Datos
             Venta venta = null;
             using (SqlConnection conexion = new SqlConnection(connectionString))
             {
-                // 1. Traer la Cabecera
                 string consultaCabecera = "SELECT V.Id, V.IdUsuario, V.FechaVenta, V.Total, V.Estado, U.Email FROM VENTAS V INNER JOIN USUARIOS U ON V.IdUsuario = U.Id WHERE V.Id = @Id";
                 using (SqlCommand cmd = new SqlCommand(consultaCabecera, conexion))
                 {
@@ -848,14 +858,13 @@ namespace Datos
                                 venta.Fecha = (DateTime)lector["FechaVenta"];
                                 venta.Total = (decimal)lector["Total"];
                                 venta.Estado = (string)lector["Estado"];
-                                venta.EmailUsuario = (string)lector["Email"]; // (Asegúrate de haber agregado esta propiedad a Venta.cs)
+                                venta.EmailUsuario = (string)lector["Email"]; 
                             }
                         }
                     }
                     catch (Exception ex) { throw ex; }
                 }
 
-                // 2. Traer los Detalles (si encontramos la venta)
                 if (venta != null)
                 {
                     string consultaDetalles = @"
@@ -905,6 +914,63 @@ namespace Datos
                     {
                         throw new Exception("Error al verificar usuario.", ex);
                     }
+                }
+            }
+        }
+
+        public List<Venta> ListarVentasPorCliente(int idUsuario)
+        {
+            List<Venta> lista = new List<Venta>();
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                string consulta = @"
+            SELECT V.Id, V.IdUsuario, V.FechaVenta, V.Total, V.Estado, U.Email
+            FROM VENTAS V
+            INNER JOIN USUARIOS U ON V.IdUsuario = U.Id
+            WHERE V.IdUsuario = @IdUsuario  -- ¡EL FILTRO!
+            ORDER BY V.FechaVenta DESC";
+
+                using (SqlCommand comando = new SqlCommand(consulta, conexion))
+                {
+                    comando.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                    try
+                    {
+                        conexion.Open();
+                        using (SqlDataReader lector = comando.ExecuteReader())
+                        {
+                            while (lector.Read())
+                            {
+                                Venta venta = new Venta();
+                                venta.Id = (int)lector["Id"];
+                                venta.IdUsuario = (int)lector["IdUsuario"];
+                                venta.Fecha = (DateTime)lector["FechaVenta"];
+                                venta.Total = (decimal)lector["Total"];
+                                venta.Estado = (string)lector["Estado"];
+                                lista.Add(venta);
+                            }
+                        }
+                    }
+                    catch (Exception ex) { throw new Exception("Error al listar compras del cliente.", ex); }
+                }
+            }
+            return lista;
+        }
+
+        public void ActualizarEstadoVenta(int idVenta, string nuevoEstado)
+        {
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                string consulta = "UPDATE VENTAS SET Estado = @estado WHERE Id = @id";
+                using (SqlCommand comando = new SqlCommand(consulta, conexion))
+                {
+                    comando.Parameters.AddWithValue("@estado", nuevoEstado);
+                    comando.Parameters.AddWithValue("@id", idVenta);
+                    try
+                    {
+                        conexion.Open();
+                        comando.ExecuteNonQuery();
+                    }
+                    catch (Exception ex) { throw new Exception("Error al actualizar estado", ex); }
                 }
             }
         }

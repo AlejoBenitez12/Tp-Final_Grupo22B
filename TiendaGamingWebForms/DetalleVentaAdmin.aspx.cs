@@ -13,8 +13,11 @@ namespace TiendaGamingWebForms
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Seguridad.EsAdmin(Session["Usuario"]))
-                Response.Redirect("Default.aspx");
+            if (Session["Usuario"] == null)
+            {
+                Response.Redirect("Login.aspx");
+                return;
+            }
 
             if (!IsPostBack)
             {
@@ -26,6 +29,14 @@ namespace TiendaGamingWebForms
 
                     if (venta != null)
                     {
+                        Usuario user = (Usuario)Session["Usuario"];
+
+                        if (!user.IsAdmin && venta.IdUsuario != user.Id)
+                        {
+                            Response.Redirect("Default.aspx");
+                            return;
+                        }
+
                         lblIdVenta.Text = venta.Id.ToString();
                         lblCliente.Text = venta.EmailUsuario;
                         lblFecha.Text = venta.Fecha.ToString("dd/MM/yyyy HH:mm");

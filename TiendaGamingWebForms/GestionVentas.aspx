@@ -1,4 +1,5 @@
-﻿<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+﻿<%@ Page Title="Gestión de Ventas" Language="C#" MasterPageFile="~/Gaming.Master" AutoEventWireup="true" CodeBehind="GestionVentas.aspx.cs" Inherits="TiendaGamingWebForms.GestionVentas" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
